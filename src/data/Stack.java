@@ -1,7 +1,5 @@
 package data;
 
-import java.util.Set;
-
 import interfaces.IStack;
 
 public class Stack implements IStack {
@@ -38,7 +36,7 @@ public class Stack implements IStack {
 	}
 
 	@Override
-	public Set<Object> getContents() {
+	public Object[] getContents() {
 		// TODO Auto-generated method stub
 		return null;
 	}
