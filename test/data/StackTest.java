@@ -21,18 +21,18 @@ public class StackTest {
 		assertEquals(null, testStack.pop());
 	}
 	
-	@Test
-	public void testPush() {
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testPop() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetContents() {
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testPush() {
+//		fail("Not yet implemented");
+//	}
+//	@Test
+//	public void testPop() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetContents() {
+//		fail("Not yet implemented");
+//	}
 
 }
