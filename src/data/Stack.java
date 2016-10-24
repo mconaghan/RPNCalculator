@@ -56,7 +56,7 @@ public class Stack implements IStack {
 	}
 
 	@Override
-	public String[] getContents() {
+	public String[] getContentsAsArray() {
 		// create a copy of the array, of the exact size needed.
 		
 		String[] contents = new String[size];

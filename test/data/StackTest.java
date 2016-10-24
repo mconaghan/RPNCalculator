@@ -2,6 +2,8 @@ package data;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +46,7 @@ public class StackTest {
 		assertEquals(1, testStack.size());
 		
 		// check the contents of the stack are as we expect - the one item we just pushed
-		Object contents1[] = testStack.getContents();
+		Object contents1[] = testStack.getContentsAsArray();
 		
 		assertEquals(1, contents1.length);
 		assertEquals("Hello World", contents1[0]);
@@ -56,7 +58,7 @@ public class StackTest {
 		Double testDouble = new Double(123);
 		testStack.push(testDouble.toString());
 		assertEquals(1, testStack.size());
-		Object contents1[] = testStack.getContents();
+		Object contents1[] = testStack.getContentsAsArray();
 		assertEquals(1, contents1.length);
 		assertEquals(testDouble.toString(), contents1[0]);
 	}
@@ -88,7 +90,7 @@ public class StackTest {
 		assertEquals(19, testStack.size());
 		
 		// check the contents of the stack are as we expect - 19 items we pushed
-		Object contents1[] = testStack.getContents();
+		Object contents1[] = testStack.getContentsAsArray();
 		
 		assertEquals(19, contents1.length);
 		
@@ -152,4 +154,5 @@ public class StackTest {
 		assertEquals(0,    testStack.size());
 		assertEquals(null, testStack.pop());
 	}
+	
 }

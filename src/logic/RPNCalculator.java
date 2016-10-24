@@ -15,10 +15,15 @@ public class RPNCalculator implements IRPNCalculator {
 	}
 
 	@Override
-	public IStack process(List<String> inputList) {
+	public IStack process(List<String> inputList, IStack stack) {
 		
-		IStack outputStack = new Stack();
-		
+		IStack outputStack;
+		if (stack == null) {
+			outputStack = new Stack();
+		} else {
+			outputStack = stack;
+		}
+				
 		for (String nextItem : inputList) {
 						
 			Double nextObjectAsNumber = getValueAsNumber(nextItem);		

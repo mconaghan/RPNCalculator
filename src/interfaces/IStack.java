@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.util.List;
+
 /**
  * A stack data structure which stores Strings, where data is 'push'ed on and 'pop'ed off; first in first out.
  * 
@@ -18,9 +20,9 @@ public interface IStack {
 	public String pop();
 		
 	/**
-	 * Return the contents of the stack without modifying/removing.
+	 * Return the contents of the stack as an array without modifying/removing.
 	 */
-	public String[] getContents();
+	public String[] getContentsAsArray();
 	
 	/**
 	 * Return the number of items on the stack (without modifying/removing).
