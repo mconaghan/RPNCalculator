@@ -43,11 +43,10 @@ public class Stack implements IStack {
 	@Override
 	public Object pop() {
 
-		if (objects.length == 0) {
+		if (size == 0) {
 			return null;
 		} else {
-			//TODO implement me
-			return null;
+			return objects[size-1];
 		}
 	}
 

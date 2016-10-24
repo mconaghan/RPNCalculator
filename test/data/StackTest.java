@@ -99,15 +99,19 @@ public class StackTest {
 	}
 	
 	@Test
-	public void testPop() {
+	public void testPopString() {
 		testStack.push("ABC123");
 		
 		assertEquals("ABC123", testStack.pop());
 	}
-
-//	@Test
-//	public void testGetContents() {
-//		fail("Not yet implemented");
-//	}
+	
+	@Test
+	public void testPopDouble() {
+		Double d = new Double(1.234);
+		
+		testStack.push(d);
+		
+		assertEquals(d, testStack.pop());
+	}
 
 }
