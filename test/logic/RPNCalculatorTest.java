@@ -70,8 +70,29 @@ public class RPNCalculatorTest {
 		
 		assertEquals(1, outputStackArray.length);
 		
-		// sample output says it should be '3' instead of '3.0', but data presentatoin is handled elsewhere
+		// sample output says it should be '3' instead of '3.0', but data presentation is handled elsewhere
+		//TODO remember to test this, that output removes the erroneous '.0'
+		
 		assertEquals("3.0", outputStackArray[0]);
+	}
+	
+	@Test
+	public void testExample3() {
+		
+		// part 1
+		inputList.add("5");
+		inputList.add("2");
+		inputList.add("-");
+		
+		IStack outputStack        = testRpnCalculator.process(inputList);	
+		Object[] outputStackArray = outputStack.getContents();
+		
+		assertEquals(1, outputStackArray.length);
+		// Note extra precision from what example shows since spec says we store to 15dps on stack and display to 10dps (or less)
+		assertEquals("3.0", outputStackArray[0]);
+		
+		// part 2
+		//TODO
 	}
 	
 }

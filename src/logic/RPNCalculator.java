@@ -36,8 +36,9 @@ public class RPNCalculator implements IRPNCalculator {
 					counter++;
 				}
 				
-				System.err.println("Unexpected argument - it is not a number or a valid operator. Valid operators are " + 
-						Arrays.toString(validOperators));
+				System.err.println("Unexpected argument '" + nextItem + 
+						           "' - it is not a number or a valid operator. Valid operators are " + 
+						           Arrays.toString(validOperators));
 			} else {
 				// must have a valid operator, so process it
 				processOperator(outputStack, Operator.getOperator(nextItem));
@@ -52,7 +53,7 @@ public class RPNCalculator implements IRPNCalculator {
 		String numberOneString;
 		String numberTwoString;
 		Double numberOne;
-		Double numbertwo;
+		Double numberTwo;
 		
 		switch (operator) {
 		
@@ -61,12 +62,22 @@ public class RPNCalculator implements IRPNCalculator {
 			numberOneString = stack.pop();
 			numberOne = getValueAsNumber(numberOneString);
 			double squareRoot = Math.sqrt(numberOne);
-			String squareRootString = Double.toString(squareRoot);
-			stack.push(squareRootString);
+			
+			stack.push(Double.toString(squareRoot));
 			break;
 			
 		case CLEAR:
 			stack.empty();
+			break;
+			
+		case MINUS:
+			numberOneString = stack.pop();
+			numberOne = getValueAsNumber(numberOneString);
+			numberTwoString = stack.pop();
+			numberTwo = getValueAsNumber(numberTwoString);
+			
+			Double result = numberTwo - numberOne;
+			stack.push(Double.toString(result));
 			break;
 			
 		default:
