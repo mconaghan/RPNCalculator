@@ -40,7 +40,7 @@ public class RPNCalculatorTest {
 		
 		assertEquals(2, outputStackArray.length);
 		assertEquals("5", outputStackArray[0]);
-		assertEquals("2", outputStackArray[0]);
+		assertEquals("2", outputStackArray[1]);
 	}
 
 }

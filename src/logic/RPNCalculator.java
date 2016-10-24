@@ -12,8 +12,7 @@ public class RPNCalculator implements IRPNCalculator {
 
 	@Override
 	public IStack process(IStack inputStack) {
-		// TODO Auto-generated method stub
-		return null;
+		return inputStack;
 	}	
 
 }
