@@ -43,4 +43,30 @@ public class RPNCalculatorTest {
 		assertEquals("2", outputStackArray[1]);
 	}
 
+	@Test
+	// example 2 from spec
+	public void testExample2() {
+		
+		// part 1
+		testStack.push("2");
+		testStack.push("sqrt");
+		
+		IStack outputStack        = testRpnCalculator.process(testStack);	
+		Object[] outputStackArray = outputStack.getContents();
+		
+		assertEquals(1, outputStackArray.length);
+		assertEquals("1.4142135623", outputStackArray[0]);
+		
+		// part 2
+		testStack.push("clear");
+		testStack.push("9");
+		testStack.push("sqrt");
+		
+		outputStack      = testRpnCalculator.process(testStack);
+		outputStackArray = outputStack.getContents();
+		
+		assertEquals(1, outputStackArray.length);
+		assertEquals("3", outputStackArray[0]);
+	}
+	
 }
