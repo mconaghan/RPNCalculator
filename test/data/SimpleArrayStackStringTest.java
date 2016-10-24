@@ -6,13 +6,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SimpleArrayStackTest {
+public class SimpleArrayStackStringTest {
 
-	private SimpleArrayStack testStack;
+	private SimpleArrayStack<String> testStack;
 	
 	@Before
 	public void setUp() throws Exception {
-		testStack = new SimpleArrayStack();
+		testStack = new SimpleArrayStack<String>();
 	}
 
 	@After

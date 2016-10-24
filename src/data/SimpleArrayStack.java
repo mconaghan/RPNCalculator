@@ -6,21 +6,23 @@ import interfaces.IStack;
  * A simple array-based implementation of a stack: a data structure onto which data can be pushed or popped, both in FIFO basis.
  *
  */
-public class SimpleArrayStack implements IStack {
+public class SimpleArrayStack<T> implements IStack<T> {
 
 	private final static int INITIAL_STACK_SIZE = 10;
 	
 	// Implement the stack as an array
-	private String objects[];
+	private T[] objects;
 	private int size;
 	
+	@SuppressWarnings("unchecked")
 	public SimpleArrayStack() {
-		objects = new String[INITIAL_STACK_SIZE];
+		objects = (T[])(new Object[INITIAL_STACK_SIZE]);
 		size    = 0;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public void push(String item) {
+	public void push(Object item) {
 
 		// ignore a null input
 		if (item == null) {
@@ -29,47 +31,49 @@ public class SimpleArrayStack implements IStack {
 			
 			// check if we need to expand the array we're using to store
 			if (objects.length <= size) {
-				String[] newObjects = new String[size * 2];
+				Object[] newObjects = new Object[size * 2];
 				
 				for (int counter = 0; counter < size; counter++) {
 					newObjects[counter] = objects[counter];
 				}
 				
-				objects = newObjects;
+				objects = (T[])newObjects;
 			} 
 			
-			objects[size] = item;
+			objects[size] = (T)item;
 			size++;			
 				
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public String pop() {
+	public T pop() {
 
 		if (size == 0) {
 			return null;
 		} else {
-			String value = objects[size-1];
+			Object value = objects[size-1];
 			
 			objects[size-1] = null;
 			size--;
 			
-			return value;
+			return (T)value;
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public String[] getContentsAsArray() {
+	public T[] getContentsAsArray() {
 		// create a copy of the array, of the exact size needed.
 		
-		String[] contents = new String[size];
+		Object[] contents = new Object[size];
 		
 		for (int counter = 0; counter < size; counter++) {
 			contents[counter] = objects[counter];
 		}
 				
-		return contents;
+		return (T[])contents;
 	}
 
 	@Override

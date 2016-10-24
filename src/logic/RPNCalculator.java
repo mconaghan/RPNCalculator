@@ -9,20 +9,24 @@ import interfaces.IStack;
 
 public class RPNCalculator implements IRPNCalculator {	
 		
-	private IStack stack;
+	private IStack<String> stack;
 	
-	// allow caller to provide the stack implementation if they want to
-	public RPNCalculator(IStack suppliedStack) {
+	/**
+	 * Create an RPN calculator.
+	 * 
+	 * @param suppliedStack Optional - if null a SimpleArrayStack will be created and used.
+	 */
+	public RPNCalculator(IStack<String> suppliedStack) {
 		
 		if (suppliedStack == null) {
-			stack = new SimpleArrayStack();
+			stack = new SimpleArrayStack<String>();
 		} else {
 			stack = suppliedStack;
 		}
 	}
 
 	@Override
-	public IStack getStack() {
+	public IStack<String> getStack() {
 		return stack;
 	}
 	
@@ -51,13 +55,13 @@ public class RPNCalculator implements IRPNCalculator {
 						           Arrays.toString(validOperators));
 			} else {
 				// must have a valid operator, so process it
-				processOperator(stack, Operator.getOperator(nextItem));
+				processOperator(Operator.getOperator(nextItem));
 			}			
 		}		
 
 	}	
 	
-	private void processOperator(IStack stack, Operator operator) {
+	private void processOperator(Operator operator) {
 		
 		String numberOneString;
 		String numberTwoString;

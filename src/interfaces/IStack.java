@@ -6,22 +6,22 @@ package interfaces;
  * 
  * Example if you push 'abc', push '123', pop -> '123', push 'def', pop -> 'def', pop -> 'abc'.
  */
-public interface IStack {
+public interface IStack <T> {
 	
 	/**
 	 * Add an item to the top of the stack.
 	 */
-	public void push(String item);
+	public void push(T item);
 	
 	/**
 	 * Remove the top (most recently added) item from the stack
 	 */
-	public String pop();
+	public T pop();
 		
 	/**
 	 * Return the contents of the stack as an array without modifying/removing.
 	 */
-	public String[] getContentsAsArray();
+	public T[] getContentsAsArray();
 	
 	/**
 	 * Return the number of items on the stack (without modifying/removing).
