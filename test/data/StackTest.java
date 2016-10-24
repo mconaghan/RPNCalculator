@@ -50,6 +50,54 @@ public class StackTest {
 		assertEquals("Hello World", contents1[0]);
 	}
 	
+	@Test
+	public void testSinglePushDouble() {
+
+		Double testDouble = new Double(123);
+		testStack.push(testDouble);
+		assertEquals(1, testStack.size());
+		Object contents1[] = testStack.getContents();
+		assertEquals(1, contents1.length);
+		assertEquals(testDouble, contents1[0]);
+	}
+	
+	@Test
+	public void testMultiplePushString() {
+
+		testStack.push("The");
+		testStack.push("Quick");
+		testStack.push("Brown");
+		testStack.push("Fox");
+		testStack.push("Jumped");
+		testStack.push("Over");
+		testStack.push("The");
+		testStack.push("Lazy");
+		testStack.push("Dog");
+		testStack.push("Then");
+		testStack.push("The");
+		testStack.push("Quick");
+		testStack.push("Brown");
+		testStack.push("Fox");
+		testStack.push("Jumped");
+		testStack.push("Over");
+		testStack.push("The");
+		testStack.push("Lazy");
+		testStack.push("Dog");
+		
+		// size should now be 19
+		assertEquals(19, testStack.size());
+		
+		// check the contents of the stack are as we expect - 19 items we pushed
+		Object contents1[] = testStack.getContents();
+		
+		assertEquals(19, contents1.length);
+		
+		// do a few checks instead of checking all 18
+		assertEquals("The",   contents1[0]);
+		assertEquals("Dog",   contents1[18]);
+		assertEquals("Quick", contents1[11]);
+	}
+	
 //	@Test
 //	public void testPop() {
 //		fail("Not yet implemented");
