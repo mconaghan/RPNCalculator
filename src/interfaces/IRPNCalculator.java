@@ -5,10 +5,10 @@ import java.util.List;
 public interface IRPNCalculator {
 
 	/**
-	 * Take list of Strings as the input, process the data and return a stack containing any results.
-	 * Optionally a stack can be provided - if so it will be used during the calculations. If the provided
-	 * stack is null a new empty stack will be used in the calculations.
+	 * Process a list of input Strings, writting the output onto the stack.
 	 */
-	public IStack process(List<String> inputArgument, IStack stack);
+	public void process(List<String> inputArgument);
+	
+	public IStack getStack();
 	
 }

@@ -2,19 +2,17 @@ package data;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StackTest {
+public class SimpleArrayStackTest {
 
-	private Stack testStack;
+	private SimpleArrayStack testStack;
 	
 	@Before
 	public void setUp() throws Exception {
-		testStack = new Stack();
+		testStack = new SimpleArrayStack();
 	}
 
 	@After

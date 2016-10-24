@@ -9,16 +9,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import data.SimpleArrayStack;
 import interfaces.IStack;
 
 public class RPNCalculatorTest {
 
-	RPNCalculator testRpnCalculator;
-	List<String> inputList;
+	private RPNCalculator testRpnCalculator;
+	private List<String> inputList;
+	private IStack outputStack;
 	
 	@Before
 	public void setUp() throws Exception {
-		testRpnCalculator = new RPNCalculator();
+		outputStack       = new SimpleArrayStack();
+		testRpnCalculator = new RPNCalculator(outputStack);
 		inputList         = new ArrayList<String>(10);
 	}
 
@@ -36,7 +39,7 @@ public class RPNCalculatorTest {
 		inputList.add("5");
 		inputList.add("2");
 		
-		IStack outputStack = testRpnCalculator.process(inputList, null);
+		testRpnCalculator.process(inputList);
 	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
 		
@@ -53,7 +56,7 @@ public class RPNCalculatorTest {
 		inputList.add("2");
 		inputList.add("sqrt");
 		
-		IStack outputStack        = testRpnCalculator.process(inputList, null);	
+		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
@@ -65,7 +68,7 @@ public class RPNCalculatorTest {
 		inputList.add("9");
 		inputList.add("sqrt");
 		
-		outputStack      = testRpnCalculator.process(inputList, outputStack);
+		testRpnCalculator.process(inputList);
 		outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
@@ -84,7 +87,7 @@ public class RPNCalculatorTest {
 		inputList.add("2");
 		inputList.add("-");
 		
-		IStack outputStack        = testRpnCalculator.process(inputList, null);	
+		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
@@ -96,7 +99,7 @@ public class RPNCalculatorTest {
 		inputList.add("3");
 		inputList.add("-");
 		
-		outputStack      = testRpnCalculator.process(inputList, outputStack);	
+		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
@@ -106,7 +109,7 @@ public class RPNCalculatorTest {
 		// part 3 
 		inputList.add("clear");		
 		
-		outputStack      = testRpnCalculator.process(inputList, outputStack);	
+		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(0, outputStackArray.length);

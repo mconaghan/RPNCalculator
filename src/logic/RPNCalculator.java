@@ -3,34 +3,39 @@ package logic;
 import java.util.Arrays;
 import java.util.List;
 
-import data.Stack;
+import data.SimpleArrayStack;
 import interfaces.IRPNCalculator;
 import interfaces.IStack;
 
 public class RPNCalculator implements IRPNCalculator {	
 		
-	// default constructor
-	public RPNCalculator() {
+	private IStack stack;
+	
+	// allow caller to provide the stack implementation if they want to
+	public RPNCalculator(IStack suppliedStack) {
 		
+		if (suppliedStack == null) {
+			stack = new SimpleArrayStack();
+		} else {
+			stack = suppliedStack;
+		}
 	}
 
 	@Override
-	public IStack process(List<String> inputList, IStack stack) {
-		
-		IStack outputStack;
-		if (stack == null) {
-			outputStack = new Stack();
-		} else {
-			outputStack = stack;
-		}
-				
+	public IStack getStack() {
+		return stack;
+	}
+	
+	@Override
+	public void process(List<String> inputList) {
+						
 		for (String nextItem : inputList) {
 						
 			Double nextObjectAsNumber = getValueAsNumber(nextItem);		
 					
 			if (nextObjectAsNumber != null) {
 				// we got a number, put it on the stack
-				outputStack.push(nextItem);
+				stack.push(nextItem);
 			} else if (!Operator.isValidOperator(nextItem)) {
 				
 				String[] validOperators = new String[Operator.values().length];
@@ -46,11 +51,10 @@ public class RPNCalculator implements IRPNCalculator {
 						           Arrays.toString(validOperators));
 			} else {
 				// must have a valid operator, so process it
-				processOperator(outputStack, Operator.getOperator(nextItem));
+				processOperator(stack, Operator.getOperator(nextItem));
 			}			
 		}		
-		
-		return outputStack;
+
 	}	
 	
 	private void processOperator(IStack stack, Operator operator) {

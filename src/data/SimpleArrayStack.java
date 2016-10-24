@@ -2,7 +2,11 @@ package data;
 
 import interfaces.IStack;
 
-public class Stack implements IStack {
+/**
+ * A simple array-based implementation of a stack: a data structure onto which data can be pushed or popped, both in FIFO basis.
+ *
+ */
+public class SimpleArrayStack implements IStack {
 
 	private final static int INITIAL_STACK_SIZE = 10;
 	
@@ -10,7 +14,7 @@ public class Stack implements IStack {
 	private String objects[];
 	private int size;
 	
-	public Stack() {
+	public SimpleArrayStack() {
 		objects = new String[INITIAL_STACK_SIZE];
 		size    = 0;
 	}

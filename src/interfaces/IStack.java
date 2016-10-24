@@ -1,6 +1,5 @@
 package interfaces;
 
-import java.util.List;
 
 /**
  * A stack data structure which stores Strings, where data is 'push'ed on and 'pop'ed off; first in first out.
