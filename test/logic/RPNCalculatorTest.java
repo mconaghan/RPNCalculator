@@ -2,39 +2,41 @@ package logic;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import data.Stack;
 import interfaces.IStack;
 
 public class RPNCalculatorTest {
 
 	RPNCalculator testRpnCalculator;
-	IStack testStack;
+	List<String> inputList;
 	
 	@Before
 	public void setUp() throws Exception {
 		testRpnCalculator = new RPNCalculator();
-		testStack = new Stack();
+		inputList         = new ArrayList<String>(10);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		testRpnCalculator = null;
-		testStack         = null;
+		inputList         = null;
 	}
-
+	
 	@Test
 	// example 1 from spec
 	public void testExample1() {
 		
 		// set up input stack
-		testStack.push("5");
-		testStack.push("2");
+		inputList.add("5");
+		inputList.add("2");
 		
-		IStack outputStack = testRpnCalculator.process(testStack);
+		IStack outputStack = testRpnCalculator.process(inputList);
 	
 		Object[] outputStackArray = outputStack.getContents();
 		
@@ -48,21 +50,22 @@ public class RPNCalculatorTest {
 	public void testExample2() {
 		
 		// part 1
-		testStack.push("2");
-		testStack.push("sqrt");
+		inputList.add("2");
+		inputList.add("sqrt");
 		
-		IStack outputStack        = testRpnCalculator.process(testStack);	
+		IStack outputStack        = testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContents();
 		
 		assertEquals(1, outputStackArray.length);
-		assertEquals("1.4142135623", outputStackArray[0]);
+		// Note extra precision from what example sshows since spec says we store to 15dps on stack and display to 10dps (or less)
+		assertEquals("1.4142135623730951", outputStackArray[0]);
 		
 		// part 2
-		testStack.push("clear");
-		testStack.push("9");
-		testStack.push("sqrt");
+		inputList.add("clear");
+		inputList.add("9");
+		inputList.add("sqrt");
 		
-		outputStack      = testRpnCalculator.process(testStack);
+		outputStack      = testRpnCalculator.process(inputList);
 		outputStackArray = outputStack.getContents();
 		
 		assertEquals(1, outputStackArray.length);

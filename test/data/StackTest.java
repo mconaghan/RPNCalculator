@@ -54,11 +54,11 @@ public class StackTest {
 	public void testSinglePushDouble() {
 
 		Double testDouble = new Double(123);
-		testStack.push(testDouble);
+		testStack.push(testDouble.toString());
 		assertEquals(1, testStack.size());
 		Object contents1[] = testStack.getContents();
 		assertEquals(1, contents1.length);
-		assertEquals(testDouble, contents1[0]);
+		assertEquals(testDouble.toString(), contents1[0]);
 	}
 	
 	@Test
@@ -109,9 +109,9 @@ public class StackTest {
 	public void testPopSingleDouble() {
 		Double d = new Double(1.234);
 		
-		testStack.push(d);
+		testStack.push(d.toString());
 		
-		assertEquals(d, testStack.pop());
+		assertEquals(d.toString(), testStack.pop());
 	}
 	
 	@Test

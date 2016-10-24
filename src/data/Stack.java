@@ -7,16 +7,16 @@ public class Stack implements IStack {
 	private final static int INITIAL_STACK_SIZE = 10;
 	
 	// Implement the stack as an array
-	private Object objects[];
+	private String objects[];
 	private int size;
 	
 	public Stack() {
-		objects = new Object[INITIAL_STACK_SIZE];
+		objects = new String[INITIAL_STACK_SIZE];
 		size    = 0;
 	}
 	
 	@Override
-	public void push(Object item) {
+	public void push(String item) {
 
 		// ignore a null input
 		if (item == null) {
@@ -25,7 +25,7 @@ public class Stack implements IStack {
 			
 			// check if we need to expand the array we're using to store
 			if (objects.length <= size) {
-				Object[] newObjects = new Object[size * 2];
+				String[] newObjects = new String[size * 2];
 				
 				for (int counter = 0; counter < size; counter++) {
 					newObjects[counter] = objects[counter];
@@ -41,12 +41,12 @@ public class Stack implements IStack {
 	}
 
 	@Override
-	public Object pop() {
+	public String pop() {
 
 		if (size == 0) {
 			return null;
 		} else {
-			Object value = objects[size-1];
+			String value = objects[size-1];
 			
 			objects[size-1] = null;
 			size--;
@@ -56,10 +56,10 @@ public class Stack implements IStack {
 	}
 
 	@Override
-	public Object[] getContents() {
+	public String[] getContents() {
 		// create a copy of the array, of the exact size needed.
 		
-		Object[] contents = new Object[size];
+		String[] contents = new String[size];
 		
 		for (int counter = 0; counter < size; counter++) {
 			contents[counter] = objects[counter];
