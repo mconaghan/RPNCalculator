@@ -35,7 +35,7 @@ public class StackTest {
 	
 	@Test
 	// pushing an item should increase the size. Verify contents via Stack.GetContents()
-	public void testPush() {
+	public void testSinglePushString() {
 		
 		// push a single item - String
 		testStack.push("Hello World");

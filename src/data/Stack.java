@@ -21,7 +21,17 @@ public class Stack implements IStack {
 		// ignore a null input
 		if (item == null) {
 			return;
-		}		
+		} else {
+			
+			if (objects.length <= size) {
+				// Need to expand the array we're using to store data
+				//TODO
+			} else {
+				objects[size] = item;
+				size++;
+			}
+				
+		}
 	}
 
 	@Override
@@ -37,8 +47,15 @@ public class Stack implements IStack {
 
 	@Override
 	public Object[] getContents() {
-		// TODO Auto-generated method stub
-		return null;
+		// create a copy of the array, of the exact size needed.
+		
+		Object[] contents = new Object[size];
+		
+		for (int counter = 0; counter < size; counter++) {
+			contents[counter] = objects[counter];
+		}
+				
+		return contents;
 	}
 
 	@Override
