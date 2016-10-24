@@ -23,13 +23,19 @@ public class Stack implements IStack {
 			return;
 		} else {
 			
+			// check if we need to expand the array we're using to store
 			if (objects.length <= size) {
-				// Need to expand the array we're using to store data
-				//TODO
-			} else {
-				objects[size] = item;
-				size++;
-			}
+				Object[] newObjects = new Object[size * 2];
+				
+				for (int counter = 0; counter < size; counter++) {
+					newObjects[counter] = objects[counter];
+				}
+				
+				objects = newObjects;
+			} 
+			
+			objects[size] = item;
+			size++;			
 				
 		}
 	}
