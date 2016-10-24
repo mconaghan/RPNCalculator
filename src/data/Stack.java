@@ -46,7 +46,12 @@ public class Stack implements IStack {
 		if (size == 0) {
 			return null;
 		} else {
-			return objects[size-1];
+			Object value = objects[size-1];
+			
+			objects[size-1] = null;
+			size--;
+			
+			return value;
 		}
 	}
 

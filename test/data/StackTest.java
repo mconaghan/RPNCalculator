@@ -99,19 +99,43 @@ public class StackTest {
 	}
 	
 	@Test
-	public void testPopString() {
+	public void testPopSingleString() {
 		testStack.push("ABC123");
 		
 		assertEquals("ABC123", testStack.pop());
 	}
 	
 	@Test
-	public void testPopDouble() {
+	public void testPopSingleDouble() {
 		Double d = new Double(1.234);
 		
 		testStack.push(d);
 		
 		assertEquals(d, testStack.pop());
+	}
+	
+	@Test
+	public void testPopManyString() {
+		testStack.push("The");
+		testStack.push("Quick");
+		testStack.push("Brown");
+		testStack.push("Fox");
+		testStack.push("Jumped");
+		testStack.push("Over");
+		testStack.push("The");
+		testStack.push("Lazy");
+		testStack.push("Dog");
+		
+		assertEquals("Dog",    testStack.pop());
+		assertEquals("Lazy",   testStack.pop());
+		assertEquals("The",    testStack.pop());
+		assertEquals("Over",   testStack.pop());
+		assertEquals("Jumped", testStack.pop());
+		assertEquals("Fox",    testStack.pop());
+		assertEquals("Brown",  testStack.pop());
+		assertEquals("Quick",  testStack.pop());
+		assertEquals("The",    testStack.pop());
+		assertEquals(null,     testStack.pop());
 	}
 
 }
