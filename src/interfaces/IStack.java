@@ -16,8 +16,7 @@ public interface IStack {
 	 * Remove the top (most recently added) item from the stack
 	 */
 	public String pop();
-	
-	
+		
 	/**
 	 * Return the contents of the stack without modifying/removing.
 	 */
@@ -27,5 +26,10 @@ public interface IStack {
 	 * Return the number of items on the stack (without modifying/removing).
 	 */
 	public int size();
+	
+	/**
+	 * Remove all content; leave the stack empty
+	 */
+	public void empty();
 
 }

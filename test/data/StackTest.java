@@ -137,5 +137,19 @@ public class StackTest {
 		assertEquals("The",    testStack.pop());
 		assertEquals(null,     testStack.pop());
 	}
-
+	
+	@Test
+	public void testEmpty() {
+		testStack.push("The");
+		testStack.push("Quick");
+		testStack.push("Brown");
+		testStack.push("Fox");
+		
+		assertEquals(4, testStack.size());
+		
+		testStack.empty();
+		
+		assertEquals(0,    testStack.size());
+		assertEquals(null, testStack.pop());
+	}
 }

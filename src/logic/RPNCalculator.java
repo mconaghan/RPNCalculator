@@ -65,6 +65,10 @@ public class RPNCalculator implements IRPNCalculator {
 			stack.push(squareRootString);
 			break;
 			
+		case CLEAR:
+			stack.empty();
+			break;
+			
 		default:
 			throw new RuntimeException("Coding error - unhandled operator in RPNCalculator.processOPerator:" + operator);
 		}

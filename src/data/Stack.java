@@ -73,4 +73,17 @@ public class Stack implements IStack {
 		return size;
 	}
 
+	@Override
+	public void empty() {
+		
+		int counter = 0;
+		
+		while (counter < size) {
+			objects[counter] = null;
+			counter++;
+		}
+		
+		size = 0;
+	}
+
 }
