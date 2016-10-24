@@ -98,11 +98,13 @@ public class StackTest {
 		assertEquals("Quick", contents1[11]);
 	}
 	
-//	@Test
-//	public void testPop() {
-//		fail("Not yet implemented");
-//	}
-//
+	@Test
+	public void testPop() {
+		testStack.push("ABC123");
+		
+		assertEquals("ABC123", testStack.pop());
+	}
+
 //	@Test
 //	public void testGetContents() {
 //		fail("Not yet implemented");
