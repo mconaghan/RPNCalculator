@@ -2,7 +2,7 @@
 Command-line based RPN calculator in Java
 
 # How to run
-The main / executable class is RPNCalculatorCLUI.java in the src directory.
+The main / executable class is RPNCalculatorCLUI.java in the src directory. In Eclipse you'll find it under '(default package)'
 
 # How to test
 All unit tests are under the test directory, and can be run for example via Eclipse: right-click on test -> Run As -> JUnit Test
