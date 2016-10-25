@@ -18,7 +18,7 @@ public class StringTenDecPointsOutputFormatterTest {
 	public void setUp() throws Exception {
 		
 		testFormatter = new StringTenDecPointsOutputFormatter();
-		testStack     = new SimpleArrayStack<>();
+		testStack     = new SimpleArrayStack<String>();
 	}
 
 	@After

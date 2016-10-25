@@ -22,10 +22,17 @@ public class StringTenDecPointsOutputFormatter implements IStackStringOutputForm
 
 		String[] output = new String[stack.size()];
 		
-		int counter = 0;
-		while (stack.size() > 0) {
+		if (stack.size() == 0) {
+			return output;
+		}
 		
-			String nextItem = stack.pop();
+		int counter = 0;
+		
+		Object[] stackContents =  stack.getContentsAsArray();
+		
+		for (Object nextItemObject : stackContents) {
+		
+			String nextItem = (String)nextItemObject;
 			Double nextItemAsDouble = NumberUtilities.getValueAsNumber(nextItem);
 			
 			if (nextItemAsDouble == null) {
