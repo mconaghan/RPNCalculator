@@ -75,9 +75,7 @@ public class RPNCalculatorTest {
 		
 		assertEquals(1, outputStackArray.length);
 		
-		// sample output says it should be '3' instead of '3.0', but data presentation is handled elsewhere
-		//TODO remember to test this, that output removes the erroneous '.0'
-		
+		// sample output says it should be '3' instead of '3.0', but data presentation is handled elsewhere (IStackStringOutputFormatter)
 		assertEquals("3.0", outputStackArray[0]);
 	}
 	
