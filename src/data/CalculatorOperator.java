@@ -1,11 +1,11 @@
-package logic;
+package data;
 
-public enum Operator {
-	SQRT("sqrt"), CLEAR("clear"), MINUS("-");
+public enum CalculatorOperator {
+	SQRT("sqrt"), CLEAR("clear"), MINUS("-"), UNDO("undo"), MULTIPLY("*");
 	
 	private String keyword;
 	
-	Operator(String value) {
+	CalculatorOperator(String value) {
 		keyword = value;
 	}
 	
@@ -17,9 +17,9 @@ public enum Operator {
 		return getKeyword();
 	}
 	
-	protected static boolean isValidOperator(String inputOperator) {
+	public static boolean isValidOperator(String inputOperator) {
 		
-	    for (Operator validOp : Operator.values()) {	    
+	    for (CalculatorOperator validOp : CalculatorOperator.values()) {	    
 	    	if (validOp.getKeyword().equalsIgnoreCase(inputOperator)) {
 	            return true;
 	        }
@@ -28,9 +28,9 @@ public enum Operator {
 	    return false;
 	}
 
-	protected static Operator getOperator(String inputOperator) {
+	public static CalculatorOperator getOperator(String inputOperator) {
 		
-	    for (Operator validOp : Operator.values()) {	    
+	    for (CalculatorOperator validOp : CalculatorOperator.values()) {	    
 	    	if (validOp.getKeyword().equalsIgnoreCase(inputOperator)) {
 	            return validOp;
 	        }

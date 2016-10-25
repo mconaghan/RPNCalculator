@@ -3,13 +3,21 @@ package logic;
 import java.util.Arrays;
 import java.util.List;
 
+import data.CalculatorOperation;
+import data.CalculatorOperator;
 import data.SimpleArrayStack;
+import data.StackOperation;
+import data.StackOperationType;
 import interfaces.IRPNCalculator;
 import interfaces.IStack;
 
 public class RPNCalculator implements IRPNCalculator {	
 		
+	// operating stack for the caulculator, where values/operators are stored
 	private IStack<String> stack;
+	
+	// a stack used to record previous operations, so that they can be undone in an LIFO order
+	private IStack<CalculatorOperation> operationHistory;
 	
 	/**
 	 * Create an RPN calculator.
@@ -23,6 +31,8 @@ public class RPNCalculator implements IRPNCalculator {
 		} else {
 			stack = suppliedStack;
 		}
+		
+		operationHistory = new SimpleArrayStack<CalculatorOperation>();
 	}
 
 	@Override
@@ -33,19 +43,26 @@ public class RPNCalculator implements IRPNCalculator {
 	@Override
 	public void process(List<String> inputList) {
 						
+		boolean recordOperation = true;
+		
 		for (String nextItem : inputList) {
+			
+			CalculatorOperation thisOperation = new CalculatorOperation();
 						
 			Double nextObjectAsNumber = getValueAsNumber(nextItem);		
 					
 			if (nextObjectAsNumber != null) {
 				// we got a number, put it on the stack
-				stack.push(nextItem);
-			} else if (!Operator.isValidOperator(nextItem)) {
+				pushStringToStack(nextItem, thisOperation);
 				
-				String[] validOperators = new String[Operator.values().length];
+			} else if (!CalculatorOperator.isValidOperator(nextItem)) {
 				
+				// not a valid operator, and we already know its not a number, so print an error
+				
+				// construct a string with all the valid operators to make a nicer error message
+				String[] validOperators = new String[CalculatorOperator.values().length];
 				int counter = 0;
-				for (Operator operator : Operator.values()) {
+				for (CalculatorOperator operator : CalculatorOperator.values()) {
 					validOperators[counter] = operator.toString();
 					counter++;
 				}
@@ -54,17 +71,27 @@ public class RPNCalculator implements IRPNCalculator {
 						           "' - it is not a number or a valid operator. Valid operators are " + 
 						           Arrays.toString(validOperators));
 			} else {
+				
 				// must have a valid operator, so process it
-				processOperator(Operator.getOperator(nextItem));
-			}			
+				CalculatorOperator operator = CalculatorOperator.getOperator(nextItem);
+				processOperator(operator, thisOperation);
+				
+				// Since 'undo undo' should undo the last two operations, we don't record what an 'undo' does
+				if (CalculatorOperator.UNDO.equals(operator)) {
+					recordOperation = false;
+				}
+			}		
+			
+			if (recordOperation) {
+				operationHistory.push(thisOperation);
+			}
+			
 		}		
 
 	}	
 	
-	private void processOperator(Operator operator) {
+	private void processOperator(CalculatorOperator operator, CalculatorOperation calcOperation) {
 		
-		String numberOneString;
-		String numberTwoString;
 		Double numberOne;
 		Double numberTwo;
 		
@@ -72,29 +99,58 @@ public class RPNCalculator implements IRPNCalculator {
 		
 		case SQRT:
 			// square root - pop off a single number from the stack, calculate the square root and push it on the stack
-			numberOneString = stack.pop();
-			numberOne = getValueAsNumber(numberOneString);
+			numberOne = popDoubleFromStack(calcOperation);
+			
 			double squareRoot = Math.sqrt(numberOne);
 			
-			stack.push(Double.toString(squareRoot));
+			pushStringToStack(Double.toString(squareRoot), calcOperation);
 			break;
 			
 		case CLEAR:
-			stack.empty();
+			
+			while (stack.size() > 0) {
+				popStringFromStack(calcOperation);
+			}
 			break;
 			
 		case MINUS:
-			numberOneString = stack.pop();
-			numberOne = getValueAsNumber(numberOneString);
-			numberTwoString = stack.pop();
-			numberTwo = getValueAsNumber(numberTwoString);
+			numberOne = popDoubleFromStack(calcOperation);
+			numberTwo = popDoubleFromStack(calcOperation);
 			
 			Double result = numberTwo - numberOne;
-			stack.push(Double.toString(result));
+			pushStringToStack(Double.toString(result), calcOperation);
+			break;
+			
+		case UNDO:
+			// get the last calculator operation from internal memory
+			CalculatorOperation lastCalulatorOperation = operationHistory.pop();
+			
+			// for each underlying task operation (in the calcualtor operation), undo it
+			while (lastCalulatorOperation.areMoreStackOperations()) {
+				StackOperation<String> lastStackOperation = lastCalulatorOperation.getLastStackOperation();
+				String value = (String) lastStackOperation.getOperationValue();
+				StackOperationType type = lastStackOperation.getOperationType();
+								
+				if (StackOperationType.POP.equals(type)) {
+					stack.push(value);
+				} else if (StackOperationType.PUSH.equals(type)) {
+					stack.pop();
+				} else {
+					throw new RuntimeException("Coding error in RPNCalculator.processOperator: " + type);
+				}
+			}
+			break;
+			
+		case MULTIPLY:
+			numberOne = popDoubleFromStack(calcOperation);
+			numberTwo = popDoubleFromStack(calcOperation);
+			
+			Double multiplyResult = numberTwo * numberOne;
+			pushStringToStack(Double.toString(multiplyResult), calcOperation);
 			break;
 			
 		default:
-			throw new RuntimeException("Coding error - unhandled operator in RPNCalculator.processOPerator:" + operator);
+			throw new RuntimeException("Coding error - unhandled operator in RPNCalculator.processOperator:" + operator);
 		}
 	}
 	
@@ -113,5 +169,25 @@ public class RPNCalculator implements IRPNCalculator {
 		
 		return number;
 	}
+	
+	private Double popDoubleFromStack(CalculatorOperation calcOp) {
 		
+		String numberString = stack.pop();
+		calcOp.addStackOperation(StackOperationType.POP, numberString);			
+		return getValueAsNumber(numberString);
+			
+	}
+	
+	private String popStringFromStack(CalculatorOperation calcOp) {
+		
+		String valueString = stack.pop();
+		calcOp.addStackOperation(StackOperationType.POP, valueString);			
+		return valueString;
+			
+	}
+		
+	private void pushStringToStack(String value, CalculatorOperation calOp) {
+		stack.push(value);
+		calOp.addStackOperation(StackOperationType.PUSH, value);	
+	}
 }

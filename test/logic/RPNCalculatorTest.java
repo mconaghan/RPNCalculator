@@ -103,7 +103,6 @@ public class RPNCalculatorTest {
 		outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
-		// Note extra precision from what example shows since spec says we store to 15dps on stack and display to 10dps (or less)
 		assertEquals("0.0", outputStackArray[0]);
 		
 		// part 3 
@@ -139,10 +138,10 @@ public class RPNCalculatorTest {
 		outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
-		// Note extra precision from what example shows since spec says we store to 15dps on stack and display to 10dps (or less)
 		assertEquals("20.0", outputStackArray[0]);
 		
 		// part 3 
+		inputList.clear();
 		inputList.add("5");
 		inputList.add("*");
 		
@@ -150,18 +149,24 @@ public class RPNCalculatorTest {
 		outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
-		// Note extra precision from what example shows since spec says we store to 15dps on stack and display to 10dps (or less)
 		assertEquals("100.0", outputStackArray[0]);
 		
 		// part 4
+		inputList.clear();
 		inputList.add("undo");
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
-				
-		assertEquals(1, outputStackArray.length);
-		// Note extra precision from what example shows since spec says we store to 15dps on stack and display to 10dps (or less)
+
+		// The spec says that we should expect a single item on the stack - 20, however I think this is wrong...
+		// The undo will undo the '*', which poped the 20 and the 5 and pushed 100. Undogin just the '*'will leave
+		// the 20 and the 5, where as the spec suggests only the 20 should be on the stack - that would require 2x 'undo'
+		// The alternative is hat undo should undo the entire list of input strings, but in the first part of the example
+		// 2 undos are done and it only undoes the last two operations, not the last two lines of input
+		
+		assertEquals(2,      outputStackArray.length);
 		assertEquals("20.0", outputStackArray[0]);
+		assertEquals("5",    outputStackArray[1]);
 	}
 	
 }
