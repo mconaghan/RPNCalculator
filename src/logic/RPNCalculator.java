@@ -11,6 +11,7 @@ import data.StackOperationType;
 import exceptions.InsufficientParametersException;
 import interfaces.IRPNCalculator;
 import interfaces.IStack;
+import utils.NumberUtilities;
 
 public class RPNCalculator implements IRPNCalculator {	
 		
@@ -50,7 +51,7 @@ public class RPNCalculator implements IRPNCalculator {
 			
 			CalculatorOperation thisOperation = new CalculatorOperation();
 						
-			Double nextObjectAsNumber = getValueAsNumber(nextItem);		
+			Double nextObjectAsNumber = NumberUtilities.getValueAsNumber(nextItem);		
 					
 			if (nextObjectAsNumber != null) {
 				// we got a number, put it on the stack
@@ -177,22 +178,6 @@ public class RPNCalculator implements IRPNCalculator {
 		}
 	}
 	
-	// 'protected' instead of 'private' so that unit tests can access, 
-	// otherwise could use reflection to change modifier (and make this private as it ideally should be)
-	protected static Double getValueAsNumber(String value) {
-		
-		Double number = null;
-		
-		try {
-			number = Double.valueOf(value);
-		} catch (NumberFormatException nfe) {
-			// value isn't a number so return null
-			number = null;
-		}
-		
-		return number;
-	}
-	
 	private Double popDoubleFromStack(CalculatorOperation calcOp) throws InsufficientParametersException {
 		
 		String numberString = stack.pop();
@@ -202,7 +187,7 @@ public class RPNCalculator implements IRPNCalculator {
 		}
 		
 		calcOp.addStackOperation(StackOperationType.POP, numberString);			
-		return getValueAsNumber(numberString);
+		return NumberUtilities.getValueAsNumber(numberString);
 			
 	}
 	
