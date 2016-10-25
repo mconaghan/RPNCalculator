@@ -169,4 +169,42 @@ public class RPNCalculatorTest {
 		assertEquals("5",    outputStackArray[1]);
 	}
 	
+	@Test
+	public void testExample5() {
+		
+		// part 1
+		inputList.add("7");
+		inputList.add("12");
+		inputList.add("2");
+		inputList.add("/");
+		
+		testRpnCalculator.process(inputList);	
+		Object[] outputStackArray = outputStack.getContentsAsArray();
+		
+		assertEquals(2, outputStackArray.length);
+		assertEquals("7", outputStackArray[0]);
+		assertEquals("6.0", outputStackArray[0]);
+				
+		// part 2
+		inputList.clear();
+		inputList.add("*");
+		
+		testRpnCalculator.process(inputList);	
+		outputStackArray = outputStack.getContentsAsArray();
+		
+		assertEquals(1, outputStackArray.length);
+		assertEquals("42.0", outputStackArray[0]);
+		
+		// part 3 
+		inputList.clear();
+		inputList.add("4");
+		inputList.add("/");
+		
+		testRpnCalculator.process(inputList);	
+		outputStackArray = outputStack.getContentsAsArray();
+		
+		assertEquals(1, outputStackArray.length);
+		assertEquals("10.5", outputStackArray[0]);
+	}
+	
 }
