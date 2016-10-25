@@ -276,8 +276,30 @@ public class RPNCalculatorTest {
 		// looks like a mistake in the spec since 4x multiplies are in a single command line so only the end result should be shown?
 		
 		assertEquals(1,       outputStackArray.length);
-		assertEquals("120.0", outputStackArray[0]);
+		assertEquals("120.0", outputStackArray[0]);		
+	}
+
+	@Test
+	public void testExample8() {
 		
+		// part 1
+		inputList.add("1");
+		inputList.add("2");
+		inputList.add("3");
+		inputList.add("*");
+		inputList.add("5");
+		inputList.add("+");
+		inputList.add("*");
+		inputList.add("*");
+		inputList.add("6");
+		inputList.add("5");
+		
+		testRpnCalculator.process(inputList);	
+		Object[] outputStackArray = outputStack.getContentsAsArray();
+		
+		assertEquals(1, outputStackArray.length);
+		assertEquals("11.0", outputStackArray[0]);	
+				
 	}
 	
 }

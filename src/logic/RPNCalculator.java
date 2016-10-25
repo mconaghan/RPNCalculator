@@ -120,6 +120,14 @@ public class RPNCalculator implements IRPNCalculator {
 			Double result = numberTwo - numberOne;
 			pushStringToStack(Double.toString(result), calcOperation);
 			break;
+		
+		case PLUS:
+			numberOne = popDoubleFromStack(calcOperation);
+			numberTwo = popDoubleFromStack(calcOperation);
+			
+			Double addResult = numberTwo + numberOne;
+			pushStringToStack(Double.toString(addResult), calcOperation);
+			break;
 			
 		case UNDO:
 			// get the last calculator operation from internal memory

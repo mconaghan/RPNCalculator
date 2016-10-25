@@ -1,7 +1,7 @@
 package data;
 
 public enum CalculatorOperator {
-	SQRT("sqrt"), CLEAR("clear"), MINUS("-"), UNDO("undo"), MULTIPLY("*"), DIVIDE("/");
+	SQRT("sqrt"), CLEAR("clear"), MINUS("-"), PLUS("+"), UNDO("undo"), MULTIPLY("*"), DIVIDE("/");
 	
 	private String keyword;
 	
