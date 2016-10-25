@@ -8,6 +8,7 @@ import data.CalculatorOperator;
 import data.SimpleArrayStack;
 import data.StackOperation;
 import data.StackOperationType;
+import exceptions.InsufficientParametersException;
 import interfaces.IRPNCalculator;
 import interfaces.IStack;
 
@@ -41,7 +42,7 @@ public class RPNCalculator implements IRPNCalculator {
 	}
 	
 	@Override
-	public void process(List<String> inputList) {
+	public void process(List<String> inputList) throws InsufficientParametersException {
 						
 		boolean recordOperation = true;
 		
@@ -74,7 +75,12 @@ public class RPNCalculator implements IRPNCalculator {
 				
 				// must have a valid operator, so process it
 				CalculatorOperator operator = CalculatorOperator.getOperator(nextItem);
-				processOperator(operator, thisOperation);
+				try {
+					processOperator(operator, thisOperation);
+				} catch (InsufficientParametersException e) {
+					e.setOperator(operator);
+					throw e;
+				}				
 				
 				// Since 'undo undo' should undo the last two operations, we don't record what an 'undo' does
 				if (CalculatorOperator.UNDO.equals(operator)) {
@@ -90,7 +96,7 @@ public class RPNCalculator implements IRPNCalculator {
 
 	}	
 	
-	private void processOperator(CalculatorOperator operator, CalculatorOperation calcOperation) {
+	private void processOperator(CalculatorOperator operator, CalculatorOperation calcOperation) throws InsufficientParametersException {
 		
 		Double numberOne;
 		Double numberTwo;
@@ -115,7 +121,7 @@ public class RPNCalculator implements IRPNCalculator {
 			
 		case MINUS:
 			numberOne = popDoubleFromStack(calcOperation);
-			numberTwo = popDoubleFromStack(calcOperation);
+			numberTwo = getSecondNumber(calcOperation, numberOne);
 			
 			Double result = numberTwo - numberOne;
 			pushStringToStack(Double.toString(result), calcOperation);
@@ -123,7 +129,7 @@ public class RPNCalculator implements IRPNCalculator {
 		
 		case PLUS:
 			numberOne = popDoubleFromStack(calcOperation);
-			numberTwo = popDoubleFromStack(calcOperation);
+			numberTwo = getSecondNumber(calcOperation, numberOne);
 			
 			Double addResult = numberTwo + numberOne;
 			pushStringToStack(Double.toString(addResult), calcOperation);
@@ -151,15 +157,16 @@ public class RPNCalculator implements IRPNCalculator {
 			
 		case MULTIPLY:
 			numberOne = popDoubleFromStack(calcOperation);
-			numberTwo = popDoubleFromStack(calcOperation);
-			
+			numberTwo = getSecondNumber(calcOperation, numberOne);
+				
 			Double multiplyResult = numberTwo * numberOne;
 			pushStringToStack(Double.toString(multiplyResult), calcOperation);
+				
 			break;
 			
 		case DIVIDE:
 			numberOne = popDoubleFromStack(calcOperation);
-			numberTwo = popDoubleFromStack(calcOperation);
+			numberTwo = getSecondNumber(calcOperation, numberOne);
 			
 			Double divideResult = numberTwo / numberOne;
 			pushStringToStack(Double.toString(divideResult), calcOperation);
@@ -186,17 +193,27 @@ public class RPNCalculator implements IRPNCalculator {
 		return number;
 	}
 	
-	private Double popDoubleFromStack(CalculatorOperation calcOp) {
+	private Double popDoubleFromStack(CalculatorOperation calcOp) throws InsufficientParametersException {
 		
 		String numberString = stack.pop();
+		
+		if (numberString == null) {
+			throw new InsufficientParametersException();
+		}
+		
 		calcOp.addStackOperation(StackOperationType.POP, numberString);			
 		return getValueAsNumber(numberString);
 			
 	}
 	
-	private String popStringFromStack(CalculatorOperation calcOp) {
+	private String popStringFromStack(CalculatorOperation calcOp) throws InsufficientParametersException {
 		
 		String valueString = stack.pop();
+		
+		if (valueString == null) {
+			throw new InsufficientParametersException();
+		}
+		
 		calcOp.addStackOperation(StackOperationType.POP, valueString);			
 		return valueString;
 			
@@ -205,5 +222,18 @@ public class RPNCalculator implements IRPNCalculator {
 	private void pushStringToStack(String value, CalculatorOperation calOp) {
 		stack.push(value);
 		calOp.addStackOperation(StackOperationType.PUSH, value);	
+	}
+	
+	private Double getSecondNumber(CalculatorOperation calcOper, Double numberOne) throws InsufficientParametersException {
+		try {
+			return popDoubleFromStack(calcOper);
+			
+		} catch (InsufficientParametersException e) {
+			// the spec implies that if we fail to process an operator which expects 2 params but only has 1 
+			//we should leave the first param on the stack, so if we can't get number 2, put number 1 back
+			pushStringToStack(Double.toString(numberOne), calcOper);
+			
+			throw e;
+		}			
 	}
 }

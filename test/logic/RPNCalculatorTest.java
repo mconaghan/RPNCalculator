@@ -9,7 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import data.CalculatorOperator;
 import data.SimpleArrayStack;
+import exceptions.InsufficientParametersException;
 import interfaces.IStack;
 
 public class RPNCalculatorTest {
@@ -33,7 +35,7 @@ public class RPNCalculatorTest {
 	
 	@Test
 	// example 1 from spec
-	public void testExample1() {
+	public void testExample1() throws Exception {
 		
 		// set up input stack
 		inputList.add("5");
@@ -50,7 +52,7 @@ public class RPNCalculatorTest {
 
 	@Test
 	// example 2 from spec
-	public void testExample2() {
+	public void testExample2() throws Exception {
 		
 		// part 1
 		inputList.add("2");
@@ -80,7 +82,7 @@ public class RPNCalculatorTest {
 	}
 	
 	@Test
-	public void testExample3() {
+	public void testExample3() throws Exception {
 		
 		// part 1
 		inputList.add("5");
@@ -115,7 +117,7 @@ public class RPNCalculatorTest {
 	}
 	
 	@Test
-	public void testExample4() {
+	public void testExample4() throws Exception {
 		
 		// part 1
 		inputList.add("5");
@@ -170,7 +172,7 @@ public class RPNCalculatorTest {
 	}
 	
 	@Test
-	public void testExample5() {
+	public void testExample5() throws Exception {
 		
 		// part 1
 		inputList.add("7");
@@ -208,7 +210,7 @@ public class RPNCalculatorTest {
 	}
 		
 	@Test
-	public void testExample6() {
+	public void testExample6() throws Exception {
 		
 		// part 1
 		inputList.add("1");
@@ -248,7 +250,7 @@ public class RPNCalculatorTest {
 	}
 	
 	@Test
-	public void testExample7() {
+	public void testExample7() throws Exception {
 		
 		// part 1
 		inputList.add("1");
@@ -280,7 +282,7 @@ public class RPNCalculatorTest {
 	}
 
 	@Test
-	public void testExample8() {
+	public void testExample8() throws Exception {
 		
 		// part 1
 		inputList.add("1");
@@ -294,7 +296,14 @@ public class RPNCalculatorTest {
 		inputList.add("6");
 		inputList.add("5");
 		
-		testRpnCalculator.process(inputList);	
+		try {
+			testRpnCalculator.process(inputList);	
+			fail("Should have thrown an InsufficientParametersException");
+		} catch (InsufficientParametersException e) {
+			// expected
+			assertEquals(CalculatorOperator.MULTIPLY, e.getOperator());
+		}
+		
 		Object[] outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
