@@ -149,6 +149,14 @@ public class RPNCalculator implements IRPNCalculator {
 			pushStringToStack(Double.toString(multiplyResult), calcOperation);
 			break;
 			
+		case DIVIDE:
+			numberOne = popDoubleFromStack(calcOperation);
+			numberTwo = popDoubleFromStack(calcOperation);
+			
+			Double divideResult = numberTwo / numberOne;
+			pushStringToStack(Double.toString(divideResult), calcOperation);
+			break;
+			
 		default:
 			throw new RuntimeException("Coding error - unhandled operator in RPNCalculator.processOperator:" + operator);
 		}

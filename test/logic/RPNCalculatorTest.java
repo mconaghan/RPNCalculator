@@ -181,9 +181,9 @@ public class RPNCalculatorTest {
 		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
 		
-		assertEquals(2, outputStackArray.length);
-		assertEquals("7", outputStackArray[0]);
-		assertEquals("6.0", outputStackArray[0]);
+		assertEquals(2,     outputStackArray.length);
+		assertEquals("7",   outputStackArray[0]);
+		assertEquals("6.0", outputStackArray[1]);
 				
 		// part 2
 		inputList.clear();
