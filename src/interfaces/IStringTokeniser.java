@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IStringTokeniser {
 	
-	public List<String> tokenise(String inpurString);
+	public List<String> getTokens();
 	public int getPositionForTokenAtIndex(int index);
 
 }

@@ -300,6 +300,7 @@ public class RPNCalculatorTest {
 		} catch (InsufficientParametersException e) {
 			// expected
 			assertEquals(CalculatorOperator.MULTIPLY, e.getOperator());
+			assertEquals(7, e.getOperatorPosition());
 		}
 		
 		Object[] outputStackArray = outputStack.getContentsAsArray();

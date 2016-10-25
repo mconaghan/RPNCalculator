@@ -47,6 +47,7 @@ public class RPNCalculator implements IRPNCalculator {
 						
 		boolean recordOperation = true;
 		
+		int inputPosition = 0;
 		for (String nextItem : inputList) {
 			
 			CalculatorOperation thisOperation = new CalculatorOperation();
@@ -80,19 +81,22 @@ public class RPNCalculator implements IRPNCalculator {
 					processOperator(operator, thisOperation);
 				} catch (InsufficientParametersException e) {
 					e.setOperator(operator);
+					e.setOperatorPosition(inputPosition);
 					throw e;
 				}				
 				
 				// Since 'undo undo' should undo the last two operations, we don't record what an 'undo' does
 				if (CalculatorOperator.UNDO.equals(operator)) {
 					recordOperation = false;
-				}
+				}				
+				
 			}		
 			
 			if (recordOperation) {
 				operationHistory.push(thisOperation);
 			}
 			
+			inputPosition++;
 		}		
 
 	}	

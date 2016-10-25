@@ -16,7 +16,7 @@ public class WhitespaceStringTokeniserTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		testTokeniser = new WhitespaceStringTokeniser();
+		
 	}
 
 	@After
@@ -25,17 +25,33 @@ public class WhitespaceStringTokeniserTest {
 	}
 
 	@Test
-	// example  from the spec
+	// example 1 from the spec
 	public void testExample1() {
-		tokens = testTokeniser.tokenise("5 2");
+		
+		testTokeniser = new WhitespaceStringTokeniser("5 2");
+		
+		tokens = testTokeniser.getTokens();
 		
 		assertEquals(2, tokens.size());
 		
 		assertEquals("5", tokens.get(0));
 		assertEquals("2", tokens.get(1));
 		
-		assertEquals(0, testTokeniser.getPositionForTokenAtIndex(0));
-		assertEquals(2, testTokeniser.getPositionForTokenAtIndex(1));
+		assertEquals(1, testTokeniser.getPositionForTokenAtIndex(0));
+		assertEquals(3, testTokeniser.getPositionForTokenAtIndex(1));
+	}
+	
+	@Test
+	// example 8 from the spec
+	public void testExample8() {
+		
+		testTokeniser = new WhitespaceStringTokeniser("1 2 3 * 5 + * * 6 5");
+		
+		tokens = testTokeniser.getTokens();
+		
+		assertEquals(10, tokens.size());
+		
+		assertEquals(15, testTokeniser.getPositionForTokenAtIndex(7));
 	}
 
 }
