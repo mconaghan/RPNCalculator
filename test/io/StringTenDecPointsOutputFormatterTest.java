@@ -56,8 +56,8 @@ public class StringTenDecPointsOutputFormatterTest {
 		
 		String[] output4 = testFormatter.formatStack(testStack);		
 		assertEquals(2,        output4.length);
-		assertEquals("123",    output4[0]);
-		assertEquals("abc123", output4[1]);
+		assertEquals("abc123", output4[0]);
+		assertEquals("123",    output4[1]);
 		
 		// a number with > 10 dps
 		testStack.empty();
