@@ -5,6 +5,6 @@ package interfaces;
  */
 public interface IStackStringOutputFormatter {
 	
-	public String[] formatStack(IStack<String> stack);
+	public String[] formatStack(IStack<Double> stack);
 
 }

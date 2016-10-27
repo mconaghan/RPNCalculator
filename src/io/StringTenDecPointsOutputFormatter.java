@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 
 import interfaces.IStack;
 import interfaces.IStackStringOutputFormatter;
-import utils.NumberUtilities;
 
 /**
  * A formatter that converts the contents of an IStack as follows:
@@ -18,7 +17,7 @@ public class StringTenDecPointsOutputFormatter implements IStackStringOutputForm
 	private static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat("#.##########");
 	
 	@Override
-	public String[] formatStack(IStack<String> stack) {
+	public String[] formatStack(IStack<Double> stack) {
 
 		String[] output = new String[stack.size()];
 		
@@ -31,12 +30,11 @@ public class StringTenDecPointsOutputFormatter implements IStackStringOutputForm
 		Object[] stackContents =  stack.getContentsAsArray();
 		
 		for (Object nextItemObject : stackContents) {
-		
-			String nextItem = (String)nextItemObject;
-			Double nextItemAsDouble = NumberUtilities.getValueAsNumber(nextItem);
+
+			Double nextItemAsDouble = (Double)nextItemObject;
 			
 			if (nextItemAsDouble == null) {
-				output[counter] = nextItem;
+				output[counter] = nextItemObject.toString();
 			} else {
 				output[counter] = DECIMAL_FORMATTER.format(nextItemAsDouble);
 			}

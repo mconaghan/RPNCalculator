@@ -15,8 +15,8 @@ import utils.NumberUtilities;
 
 public class RPNCalculator implements IRPNCalculator {	
 		
-	// operating stack for the caulculator, where values/operators are stored
-	private IStack<String> stack;
+	// operating stack for the calculator, where values/operators are stored
+	private IStack<Double> stack;
 	
 	// a stack used to record previous operations, so that they can be undone in an LIFO order
 	private IStack<CalculatorOperation> operationHistory;
@@ -26,10 +26,10 @@ public class RPNCalculator implements IRPNCalculator {
 	 * 
 	 * @param suppliedStack Optional - if null a SimpleArrayStack will be created and used.
 	 */
-	public RPNCalculator(IStack<String> suppliedStack) {
+	public RPNCalculator(IStack<Double> suppliedStack) {
 		
 		if (suppliedStack == null) {
-			stack = new SimpleArrayStack<String>();
+			stack = new SimpleArrayStack<Double>();
 		} else {
 			stack = suppliedStack;
 		}
@@ -38,7 +38,7 @@ public class RPNCalculator implements IRPNCalculator {
 	}
 
 	@Override
-	public IStack<String> getStack() {
+	public IStack<Double> getStack() {
 		return stack;
 	}
 	
@@ -56,7 +56,7 @@ public class RPNCalculator implements IRPNCalculator {
 					
 			if (nextObjectAsNumber != null) {
 				// we got a number, put it on the stack
-				pushStringToStack(nextItem, thisOperation);
+				pushDoubleToStack(nextObjectAsNumber, thisOperation);
 				
 			} else if (!CalculatorOperator.isValidOperator(nextItem)) {
 				
@@ -114,13 +114,13 @@ public class RPNCalculator implements IRPNCalculator {
 			
 			double squareRoot = Math.sqrt(numberOne);
 			
-			pushStringToStack(Double.toString(squareRoot), calcOperation);
+			pushDoubleToStack(squareRoot, calcOperation);
 			break;
 			
 		case CLEAR:
 			
 			while (stack.size() > 0) {
-				popStringFromStack(calcOperation);
+				popDoubleFromStack(calcOperation);
 			}
 			break;
 			
@@ -129,7 +129,7 @@ public class RPNCalculator implements IRPNCalculator {
 			numberTwo = getSecondNumber(calcOperation, numberOne);
 			
 			Double result = numberTwo - numberOne;
-			pushStringToStack(Double.toString(result), calcOperation);
+			pushDoubleToStack(result, calcOperation);
 			break;
 		
 		case PLUS:
@@ -137,17 +137,17 @@ public class RPNCalculator implements IRPNCalculator {
 			numberTwo = getSecondNumber(calcOperation, numberOne);
 			
 			Double addResult = numberTwo + numberOne;
-			pushStringToStack(Double.toString(addResult), calcOperation);
+			pushDoubleToStack(addResult, calcOperation);
 			break;
 			
 		case UNDO:
 			// get the last calculator operation from internal memory
 			CalculatorOperation lastCalulatorOperation = operationHistory.pop();
 			
-			// for each underlying task operation (in the calcualtor operation), undo it
+			// for each underlying task operation (in the calculator operation), undo it
 			while (lastCalulatorOperation.areMoreStackOperations()) {
-				StackOperation<String> lastStackOperation = lastCalulatorOperation.getLastStackOperation();
-				String value = (String) lastStackOperation.getOperationValue();
+				StackOperation<Double> lastStackOperation = lastCalulatorOperation.getLastStackOperation();
+				Double value = lastStackOperation.getOperationValueAsDouble();
 				StackOperationType type = lastStackOperation.getOperationType();
 								
 				if (StackOperationType.POP.equals(type)) {
@@ -165,7 +165,7 @@ public class RPNCalculator implements IRPNCalculator {
 			numberTwo = getSecondNumber(calcOperation, numberOne);
 				
 			Double multiplyResult = numberTwo * numberOne;
-			pushStringToStack(Double.toString(multiplyResult), calcOperation);
+			pushDoubleToStack(multiplyResult, calcOperation);
 				
 			break;
 			
@@ -178,7 +178,7 @@ public class RPNCalculator implements IRPNCalculator {
 			}
 			
 			Double divideResult = numberTwo / numberOne;
-			pushStringToStack(Double.toString(divideResult), calcOperation);
+			pushDoubleToStack(divideResult, calcOperation);
 			break;
 			
 		default:
@@ -188,31 +188,18 @@ public class RPNCalculator implements IRPNCalculator {
 	
 	private Double popDoubleFromStack(CalculatorOperation calcOp) throws InsufficientParametersException {
 		
-		String numberString = stack.pop();
+		Double number = stack.pop();
 		
-		if (numberString == null) {
+		if (number == null) {
 			throw new InsufficientParametersException();
 		}
 		
-		calcOp.addStackOperation(StackOperationType.POP, numberString);			
-		return NumberUtilities.getValueAsNumber(numberString);
-			
-	}
-	
-	private String popStringFromStack(CalculatorOperation calcOp) throws InsufficientParametersException {
-		
-		String valueString = stack.pop();
-		
-		if (valueString == null) {
-			throw new InsufficientParametersException();
-		}
-		
-		calcOp.addStackOperation(StackOperationType.POP, valueString);			
-		return valueString;
+		calcOp.addStackOperation(StackOperationType.POP, number);			
+		return number;
 			
 	}
 		
-	private void pushStringToStack(String value, CalculatorOperation calOp) {
+	private void pushDoubleToStack(Double value, CalculatorOperation calOp) {
 		stack.push(value);
 		calOp.addStackOperation(StackOperationType.PUSH, value);	
 	}
@@ -223,8 +210,8 @@ public class RPNCalculator implements IRPNCalculator {
 			
 		} catch (InsufficientParametersException e) {
 			// the spec implies that if we fail to process an operator which expects 2 params but only has 1 
-			//we should leave the first param on the stack, so if we can't get number 2, put number 1 back
-			pushStringToStack(Double.toString(numberOne), calcOper);
+			// we should leave the first param on the stack, so if we can't get number 2, put number 1 back
+			pushDoubleToStack(numberOne, calcOper);
 			
 			throw e;
 		}			

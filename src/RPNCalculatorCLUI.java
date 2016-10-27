@@ -23,7 +23,7 @@ import logic.RPNCalculator;
  */
 public class RPNCalculatorCLUI {
 	
-	private static IStack<String> stack;
+	private static IStack<Double> stack;
 	private static IRPNCalculator calculator;
 	private static IStackStringOutputFormatter outputFormater;
 	private static IStringTokeniser inputParser;
@@ -32,7 +32,7 @@ public class RPNCalculatorCLUI {
 	public static void main(String[] args) throws IOException {
 		
 		// Create the objects we need
-		stack          = new SimpleArrayStack<String>();
+		stack          = new SimpleArrayStack<Double>();
 		calculator     = new RPNCalculator(stack);
 		outputFormater = new StringTenDecPointsOutputFormatter();
 		

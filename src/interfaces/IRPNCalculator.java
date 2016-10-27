@@ -11,6 +11,6 @@ public interface IRPNCalculator {
 	 */
 	public void process(List<String> inputArgument) throws InsufficientParametersException;
 	
-	public IStack<String> getStack();
+	public IStack<Double> getStack();
 	
 }

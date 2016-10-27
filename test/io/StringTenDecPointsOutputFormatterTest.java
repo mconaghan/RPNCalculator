@@ -12,13 +12,13 @@ import interfaces.IStack;
 public class StringTenDecPointsOutputFormatterTest {
 
 	private StringTenDecPointsOutputFormatter testFormatter;
-	private IStack<String> testStack;
+	private IStack<Double> testStack;
 	
 	@Before
 	public void setUp() throws Exception {
 		
 		testFormatter = new StringTenDecPointsOutputFormatter();
-		testStack     = new SimpleArrayStack<String>();
+		testStack     = new SimpleArrayStack<Double>();
 	}
 
 	@After
@@ -33,42 +33,37 @@ public class StringTenDecPointsOutputFormatterTest {
 		// nothing in, nothing out
 		String[] output1 = testFormatter.formatStack(testStack);		
 		assertEquals(0, output1.length);
-		
-		// single string in, single string out
-		testStack.empty();
-		testStack.push("abc123");
-		String[] output2 = testFormatter.formatStack(testStack);		
-		assertEquals(1, output2.length);
-		assertEquals("abc123", output2[0]);
-		
+				
 		// single number in, single number out
 		testStack.empty();
-		testStack.push("123");
+		testStack.push(Double.valueOf(123));
 		String[] output3 = testFormatter.formatStack(testStack);		
 		assertEquals(1, output3.length);
 		assertEquals("123", output3[0]);
 		
-		// mixed
+		// many numbers
 		testStack.empty();
 		
-		testStack.push("abc123");
-		testStack.push("123");
+		testStack.push(Double.valueOf(2));
+		testStack.push(Double.valueOf(123));
+		testStack.push(Double.valueOf(456));
 		
 		String[] output4 = testFormatter.formatStack(testStack);		
-		assertEquals(2,        output4.length);
-		assertEquals("abc123", output4[0]);
-		assertEquals("123",    output4[1]);
+		assertEquals(3,     output4.length);
+		assertEquals("2",   output4[0]);
+		assertEquals("123", output4[1]);
+		assertEquals("456", output4[2]);
 		
 		// a number with > 10 dps
 		testStack.empty();
-		testStack.push("0.123456789123456789");
+		testStack.push(Double.valueOf("0.123456789123456789"));
 		String[] output5 = testFormatter.formatStack(testStack);		
 		assertEquals(1, output5.length);
 		assertEquals("0.1234567891", output5[0]);
 		
 		// a number with some dps but not 10
 		testStack.empty();
-		testStack.push("1.2345");
+		testStack.push(Double.valueOf("1.2345"));
 		String[] output6 = testFormatter.formatStack(testStack);		
 		assertEquals(1, output6.length);
 		assertEquals("1.2345", output6[0]);

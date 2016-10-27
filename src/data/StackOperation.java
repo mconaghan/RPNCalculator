@@ -24,4 +24,8 @@ public class StackOperation<T> {
 		return operationValue;
 	}
 	
+	public Double getOperationValueAsDouble() {
+		return (Double)operationValue;
+	}
+	
 }

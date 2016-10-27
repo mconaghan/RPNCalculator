@@ -14,15 +14,15 @@ import interfaces.IStack;
 public class CalculatorOperation {
 
 	// use a stack to record the underlying stack operation(s), since we'll want to look at the operations in LIFO order.
-	private IStack<StackOperation<String>> stackOperations;
+	private IStack<StackOperation<Double>> stackOperations;
 	
 	public CalculatorOperation() {
-		stackOperations = new SimpleArrayStack<StackOperation<String>>();
+		stackOperations = new SimpleArrayStack<StackOperation<Double>>();
 	}
 		
-	public void addStackOperation(StackOperationType type, String value) {
+	public void addStackOperation(StackOperationType type, Double value) {
 		
-		StackOperation<String> stackOperation = new StackOperation<String>(type, value);
+		StackOperation<Double> stackOperation = new StackOperation<Double>(type, value);
 		stackOperations.push(stackOperation);
 	}
 	
@@ -30,7 +30,7 @@ public class CalculatorOperation {
 		return (stackOperations.size() != 0);
 	}
 	
-	public StackOperation<String> getLastStackOperation() {
+	public StackOperation<Double> getLastStackOperation() {
 		
 		if (areMoreStackOperations()) {
 			return stackOperations.pop();
