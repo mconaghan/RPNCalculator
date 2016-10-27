@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import data.CalculatorOperator;
+import data.RPNCalculatorParameter;
 import data.SimpleArrayStack;
 import exceptions.InsufficientParametersException;
 import interfaces.IStack;
@@ -17,14 +18,14 @@ import interfaces.IStack;
 public class RPNCalculatorTest {
 
 	private RPNCalculator  testRpnCalculator;
-	private List<String>   inputList;
+	private List<RPNCalculatorParameter> inputList;
 	private IStack<Double> outputStack;
 	
 	@Before
 	public void setUp() throws Exception {
 		outputStack       = new SimpleArrayStack<Double>();
 		testRpnCalculator = new RPNCalculator(outputStack);
-		inputList         = new ArrayList<String>(10);
+		inputList         = new ArrayList<RPNCalculatorParameter>(10);
 	}
 
 	@After
@@ -38,8 +39,8 @@ public class RPNCalculatorTest {
 	public void testExample1() throws Exception {
 		
 		// set up input stack
-		inputList.add("5");
-		inputList.add("2");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
 		
 		testRpnCalculator.process(inputList);
 	
@@ -55,20 +56,20 @@ public class RPNCalculatorTest {
 	public void testExample2() throws Exception {
 		
 		// part 1
-		inputList.add("2");
-		inputList.add("sqrt");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.SQRT));
 		
 		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
 		
 		assertEquals(1, outputStackArray.length);
-		// Note extra precision from what example sshows since spec says we store to 15dps on stack and display to 10dps (or less)
+		// Note extra precision from what example shows since spec says we store to 15dps on stack and display to 10dps (or less)
 		assertEquals(Double.valueOf("1.4142135623730951"), outputStackArray[0]);
 		
 		// part 2
-		inputList.add("clear");
-		inputList.add("9");
-		inputList.add("sqrt");
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.CLEAR));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(9)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.SQRT));
 		
 		testRpnCalculator.process(inputList);
 		outputStackArray = outputStack.getContentsAsArray();
@@ -83,9 +84,9 @@ public class RPNCalculatorTest {
 	public void testExample3() throws Exception {
 		
 		// part 1
-		inputList.add("5");
-		inputList.add("2");
-		inputList.add("-");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MINUS));
 		
 		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
@@ -96,8 +97,8 @@ public class RPNCalculatorTest {
 		
 		// part 2
 		inputList.clear();
-		inputList.add("3");
-		inputList.add("-");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(3)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MINUS));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -106,7 +107,7 @@ public class RPNCalculatorTest {
 		assertEquals(Double.valueOf(0), outputStackArray[0]);
 		
 		// part 3 
-		inputList.add("clear");		
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.CLEAR));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -118,10 +119,10 @@ public class RPNCalculatorTest {
 	public void testExample4() throws Exception {
 		
 		// part 1
-		inputList.add("5");
-		inputList.add("4");
-		inputList.add("3");
-		inputList.add("2");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(4)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(3)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
 		
 		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
@@ -130,9 +131,9 @@ public class RPNCalculatorTest {
 				
 		// part 2
 		inputList.clear();
-		inputList.add("undo");
-		inputList.add("undo");
-		inputList.add("*");
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.UNDO));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.UNDO));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -142,8 +143,8 @@ public class RPNCalculatorTest {
 		
 		// part 3 
 		inputList.clear();
-		inputList.add("5");
-		inputList.add("*");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -153,7 +154,7 @@ public class RPNCalculatorTest {
 		
 		// part 4
 		inputList.clear();
-		inputList.add("undo");
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.UNDO));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -173,10 +174,10 @@ public class RPNCalculatorTest {
 	public void testExample5() throws Exception {
 		
 		// part 1
-		inputList.add("7");
-		inputList.add("12");
-		inputList.add("2");
-		inputList.add("/");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(7)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(12)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.DIVIDE));
 		
 		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
@@ -187,7 +188,7 @@ public class RPNCalculatorTest {
 				
 		// part 2
 		inputList.clear();
-		inputList.add("*");
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -197,8 +198,8 @@ public class RPNCalculatorTest {
 		
 		// part 3 
 		inputList.clear();
-		inputList.add("4");
-		inputList.add("/");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(4)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.DIVIDE));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -211,11 +212,11 @@ public class RPNCalculatorTest {
 	public void testExample6() throws Exception {
 		
 		// part 1
-		inputList.add("1");
-		inputList.add("2");
-		inputList.add("3");
-		inputList.add("4");
-		inputList.add("5");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(1)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(3)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(4)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
 		
 		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
@@ -224,7 +225,7 @@ public class RPNCalculatorTest {
 		
 		// part 2
 		inputList.clear();
-		inputList.add("*");
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -235,10 +236,10 @@ public class RPNCalculatorTest {
 		
 		// part 3 
 		inputList.clear();
-		inputList.add("clear");
-		inputList.add("3");
-		inputList.add("4");
-		inputList.add("-");
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.CLEAR));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(3)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(4)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MINUS));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -251,11 +252,11 @@ public class RPNCalculatorTest {
 	public void testExample7() throws Exception {
 		
 		// part 1
-		inputList.add("1");
-		inputList.add("2");
-		inputList.add("3");
-		inputList.add("4");
-		inputList.add("5");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(1)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(3)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(4)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
 		
 		testRpnCalculator.process(inputList);	
 		Object[] outputStackArray = outputStack.getContentsAsArray();
@@ -264,10 +265,10 @@ public class RPNCalculatorTest {
 		
 		// part 2
 		inputList.clear();
-		inputList.add("*");
-		inputList.add("*");
-		inputList.add("*");
-		inputList.add("*");
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
 		
 		testRpnCalculator.process(inputList);	
 		outputStackArray = outputStack.getContentsAsArray();
@@ -283,16 +284,16 @@ public class RPNCalculatorTest {
 	public void testExample8() throws Exception {
 		
 		// part 1
-		inputList.add("1");
-		inputList.add("2");
-		inputList.add("3");
-		inputList.add("*");
-		inputList.add("5");
-		inputList.add("+");
-		inputList.add("*");
-		inputList.add("*");
-		inputList.add("6");
-		inputList.add("5");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(1)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(2)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(3)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.PLUS));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.MULTIPLY));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(6)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(5)));
 		
 		try {
 			testRpnCalculator.process(inputList);	
@@ -314,9 +315,9 @@ public class RPNCalculatorTest {
 	public void testDivideByZero() throws Exception {
 		
 		// set up input stack
-		inputList.add("0");
-		inputList.add("0");
-		inputList.add("/");
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(0)));
+		inputList.add(new RPNCalculatorParameter(Double.valueOf(0)));
+		inputList.add(new RPNCalculatorParameter(CalculatorOperator.DIVIDE));
 				
 		try {
 		

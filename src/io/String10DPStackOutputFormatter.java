@@ -3,7 +3,7 @@ package io;
 import java.text.DecimalFormat;
 
 import interfaces.IStack;
-import interfaces.IStackStringOutputFormatter;
+import interfaces.IStackOutputFormatter;
 
 /**
  * A formatter that converts the contents of an IStack as follows:
@@ -12,7 +12,7 @@ import interfaces.IStackStringOutputFormatter;
  * - Otherwise call toString() on the object
  *
  */
-public class StringTenDecPointsOutputFormatter implements IStackStringOutputFormatter {
+public class String10DPStackOutputFormatter implements IStackOutputFormatter {
 
 	private static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat("#.##########");
 	

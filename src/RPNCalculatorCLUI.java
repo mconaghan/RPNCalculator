@@ -4,13 +4,14 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
+import data.RPNCalculatorParameter;
 import data.SimpleArrayStack;
 import exceptions.InsufficientParametersException;
 import interfaces.IRPNCalculator;
 import interfaces.IStack;
-import interfaces.IStackStringOutputFormatter;
+import interfaces.IStackOutputFormatter;
 import interfaces.IStringTokeniser;
-import io.StringTenDecPointsOutputFormatter;
+import io.String10DPStackOutputFormatter;
 import io.WhitespaceStringTokeniser;
 import logic.RPNCalculator;
 
@@ -25,7 +26,7 @@ public class RPNCalculatorCLUI {
 	
 	private static IStack<Double> stack;
 	private static IRPNCalculator calculator;
-	private static IStackStringOutputFormatter outputFormater;
+	private static IStackOutputFormatter outputFormater;
 	private static IStringTokeniser inputParser;
 	private static BufferedReader console;
 
@@ -34,7 +35,7 @@ public class RPNCalculatorCLUI {
 		// Create the objects we need
 		stack          = new SimpleArrayStack<Double>();
 		calculator     = new RPNCalculator(stack);
-		outputFormater = new StringTenDecPointsOutputFormatter();
+		outputFormater = new String10DPStackOutputFormatter();
 		
 		// set up stdin as input
 		console =  new BufferedReader(new InputStreamReader(System.in));
@@ -58,7 +59,7 @@ public class RPNCalculatorCLUI {
 		String initialLine = console.readLine();
 		
 		inputParser = new WhitespaceStringTokeniser(initialLine);
-		List<String> tokens = inputParser.getTokens();
+		List<RPNCalculatorParameter> tokens = inputParser.getTokens();
 
 		
 		stack.size();
@@ -67,7 +68,7 @@ public class RPNCalculatorCLUI {
 			calculator.process(tokens);
 		} catch (InsufficientParametersException e) {
 			// this means an operator didn't have all the information it needed. We need to figure out what operator
-			// casued the problem, then query the tokeniser to get the associated index, then output a message
+			// caused the problem, then query the tokeniser to get the associated index, then output a message
 			int operatorPositionInInputString = inputParser.getPositionForTokenAtIndex(e.getOperatorPosition());
 			e.setOperatorPositionInString(operatorPositionInInputString);
 			System.err.println(e.getMessage());

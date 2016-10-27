@@ -8,10 +8,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import data.RPNCalculatorParameter;
+
 public class WhitespaceStringTokeniserTest {
 
 	private WhitespaceStringTokeniser testTokeniser;
-	private List<String> tokens;
+	private List<RPNCalculatorParameter> tokens;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -34,8 +36,8 @@ public class WhitespaceStringTokeniserTest {
 		
 		assertEquals(2, tokens.size());
 		
-		assertEquals("5", tokens.get(0));
-		assertEquals("2", tokens.get(1));
+		assertEquals(Double.valueOf(5), tokens.get(0).getNumber());
+		assertEquals(Double.valueOf(2), tokens.get(1).getNumber());
 		
 		assertEquals(1, testTokeniser.getPositionForTokenAtIndex(0));
 		assertEquals(3, testTokeniser.getPositionForTokenAtIndex(1));

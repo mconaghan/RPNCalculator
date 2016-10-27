@@ -1,17 +1,16 @@
 package logic;
 
-import java.util.Arrays;
 import java.util.List;
 
 import data.CalculatorOperation;
 import data.CalculatorOperator;
+import data.RPNCalculatorParameter;
 import data.SimpleArrayStack;
 import data.StackOperation;
 import data.StackOperationType;
 import exceptions.InsufficientParametersException;
 import interfaces.IRPNCalculator;
 import interfaces.IStack;
-import utils.NumberUtilities;
 
 public class RPNCalculator implements IRPNCalculator {	
 		
@@ -43,50 +42,32 @@ public class RPNCalculator implements IRPNCalculator {
 	}
 	
 	@Override
-	public void process(List<String> inputList) throws InsufficientParametersException {
+	public void process(List<RPNCalculatorParameter> inputList) throws InsufficientParametersException {
 						
 		boolean recordOperation = true;
 		
 		int inputPosition = 0;
-		for (String nextItem : inputList) {
+		for (RPNCalculatorParameter nextItem : inputList) {
 			
 			CalculatorOperation thisOperation = new CalculatorOperation();
-						
-			Double nextObjectAsNumber = NumberUtilities.getValueAsNumber(nextItem);		
-					
-			if (nextObjectAsNumber != null) {
+								
+			if (!nextItem.isOperator()) {
 				// we got a number, put it on the stack
-				pushDoubleToStack(nextObjectAsNumber, thisOperation);
+				pushDoubleToStack(nextItem.getNumber(), thisOperation);
+						
+			} else {				
+				// we have an operator
 				
-			} else if (!CalculatorOperator.isValidOperator(nextItem)) {
-				
-				// not a valid operator, and we already know its not a number, so print an error
-				
-				// construct a string with all the valid operators to make a nicer error message
-				String[] validOperators = new String[CalculatorOperator.values().length];
-				int counter = 0;
-				for (CalculatorOperator operator : CalculatorOperator.values()) {
-					validOperators[counter] = operator.toString();
-					counter++;
-				}
-				
-				System.err.println("Unexpected argument '" + nextItem + 
-						           "' - it is not a number or a valid operator. Valid operators are " + 
-						           Arrays.toString(validOperators));
-			} else {
-				
-				// must have a valid operator, so process it
-				CalculatorOperator operator = CalculatorOperator.getOperator(nextItem);
 				try {
-					processOperator(operator, thisOperation);
+					processOperator(nextItem.getOperator(), thisOperation);
 				} catch (InsufficientParametersException e) {
-					e.setOperator(operator);
+					e.setOperator(nextItem.getOperator());
 					e.setOperatorPosition(inputPosition);
 					throw e;
 				}				
 				
 				// Since 'undo undo' should undo the last two operations, we don't record what an 'undo' does
-				if (CalculatorOperator.UNDO.equals(operator)) {
+				if (CalculatorOperator.UNDO.equals(nextItem.getOperator())) {
 					recordOperation = false;
 				}				
 				

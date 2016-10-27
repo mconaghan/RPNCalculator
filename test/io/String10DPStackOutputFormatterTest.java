@@ -9,15 +9,15 @@ import org.junit.Test;
 import data.SimpleArrayStack;
 import interfaces.IStack;
 
-public class StringTenDecPointsOutputFormatterTest {
+public class String10DPStackOutputFormatterTest {
 
-	private StringTenDecPointsOutputFormatter testFormatter;
+	private String10DPStackOutputFormatter testFormatter;
 	private IStack<Double> testStack;
 	
 	@Before
 	public void setUp() throws Exception {
 		
-		testFormatter = new StringTenDecPointsOutputFormatter();
+		testFormatter = new String10DPStackOutputFormatter();
 		testStack     = new SimpleArrayStack<Double>();
 	}
 
