@@ -1,16 +1,16 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
 import data.RPNCalculatorParameter;
 import data.SimpleArrayStack;
 import exceptions.InsufficientParametersException;
+import interfaces.IInputListener;
 import interfaces.IRPNCalculator;
 import interfaces.IStack;
 import interfaces.IStackOutputFormatter;
 import interfaces.IStringTokeniser;
+import io.StandardInListener;
 import io.String10DPStackOutputFormatter;
 import io.WhitespaceStringTokeniser;
 import logic.RPNCalculator;
@@ -24,11 +24,11 @@ import logic.RPNCalculator;
  */
 public class RPNCalculatorCLUI {
 	
-	private static IStack<Double> stack;
-	private static IRPNCalculator calculator;
+	private static IStack<Double>        stack;
+	private static IRPNCalculator        calculator;
 	private static IStackOutputFormatter outputFormater;
-	private static IStringTokeniser inputParser;
-	private static BufferedReader console;
+	private static IStringTokeniser      inputParser;
+	private static IInputListener        inputListener;
 
 	public static void main(String[] args) throws IOException {
 		
@@ -36,33 +36,22 @@ public class RPNCalculatorCLUI {
 		stack          = new SimpleArrayStack<Double>();
 		calculator     = new RPNCalculator(stack);
 		outputFormater = new String10DPStackOutputFormatter();
-		
-		// set up stdin as input
-		console =  new BufferedReader(new InputStreamReader(System.in));
-		
-        if (console == null) {
-            System.err.println("No console.");
-            System.exit(1);
-        }
+		inputListener  = new StandardInListener();
 
-        doSomeWork("Welcome to Command-line RPN Calculator. Enter a white-spaced list of numbers and operators then press enter\n>");
-                        
+		String input = inputListener.listenForInput("Welcome to Command-line RPN Calculator. Enter a white-spaced list of numbers and operators then press enter\n>");
+        process(input);     
+		
         while (true) {
-        	doSomeWork("> ");
+        	input = inputListener.listenForInput("> ");
+            process(input); 
         }
 
 	}
 
-	private static void doSomeWork(String commandLinePrompt) throws IOException {
+	private static void process(String inputLine) throws IOException {
 		
-		System.out.println(commandLinePrompt);
-		String initialLine = console.readLine();
-		
-		inputParser = new WhitespaceStringTokeniser(initialLine);
+		inputParser = new WhitespaceStringTokeniser(inputLine);
 		List<RPNCalculatorParameter> tokens = inputParser.getTokens();
-
-		
-		stack.size();
 		
 		try {
 			calculator.process(tokens);
@@ -81,6 +70,5 @@ public class RPNCalculatorCLUI {
 		String[] output = outputFormater.formatStack(stack);
 		System.out.println("stack: " + Arrays.toString(output));
 		
-	}
-	
+	}	
 }
