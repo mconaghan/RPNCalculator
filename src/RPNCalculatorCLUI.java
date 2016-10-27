@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -73,9 +72,10 @@ public class RPNCalculatorCLUI {
 			e.setOperatorPositionInString(operatorPositionInInputString);
 			System.err.println(e.getMessage());
 			System.err.flush();
+		} catch (ArithmeticException e) {
+			System.err.println(e.getMessage());
+			System.err.flush();
 		}
-		
-		stack.size();
 		
 		String[] output = outputFormater.formatStack(stack);
 		System.out.println("stack: " + Arrays.toString(output));

@@ -310,4 +310,27 @@ public class RPNCalculatorTest {
 				
 	}
 	
+	@Test 
+	public void testDivideByZero() throws Exception {
+		
+		// set up input stack
+		inputList.add("0");
+		inputList.add("0");
+		inputList.add("/");
+				
+		try {
+		
+			testRpnCalculator.process(inputList);
+			fail("Should have thrown an ArithmeticException");
+		} catch (ArithmeticException e) {
+			// expected
+		}
+		
+			
+		Object[] outputStackArray = outputStack.getContentsAsArray();
+				
+		assertEquals(0, outputStackArray.length);
+				
+	}
+	
 }

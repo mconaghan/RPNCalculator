@@ -173,6 +173,10 @@ public class RPNCalculator implements IRPNCalculator {
 			numberOne = popDoubleFromStack(calcOperation);
 			numberTwo = getSecondNumber(calcOperation, numberOne);
 			
+			if (Double.valueOf(0).equals(numberOne)) {
+				throw new ArithmeticException("Cannot divide by zero");
+			}
+			
 			Double divideResult = numberTwo / numberOne;
 			pushStringToStack(Double.toString(divideResult), calcOperation);
 			break;
